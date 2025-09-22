@@ -1,0 +1,54 @@
+:root{
+  --bg: #000;
+  --dot-size: 6px; /* very small size */
+  --title-color: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--title-color);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Title at the top */
+header {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(18px, 3.5vw, 36px);
+  letter-spacing: 0.04em;
+  color: var(--title-color);
+  text-shadow: 0 0 6px rgba(255,255,255,0.06);
+}
+
+/* Center area with the dot */
+main {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The tiny dot in the center */
+.dot {
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #ffd, #f0f0f0);
+  box-shadow:
+    0 0 10px rgba(255,255,255,0.9),
+    0 0 24px rgba(255,200,0,0.15);
+  transform-origin: center center;
+}
