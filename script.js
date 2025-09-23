@@ -1,15 +1,21 @@
 // script.js
-// Handle the Big Bang expansion and stars creation
 
 const dot = document.getElementById('dot');
 const universe = document.getElementById('universe');
 const dotText = document.getElementById('dot-text');
+const bgAudio = document.getElementById('bg-audio'); // background audio element
 
-// inicial cursor
+// initial cursor
 dot.style.cursor = 'pointer';
 
 function expandDot(duration = 1000) {
   if (!dot) return;
+
+  // Play background audio in loop
+  if (bgAudio) {
+    bgAudio.currentTime = 0; // restart from beginning
+    bgAudio.play().catch(err => console.log("Audio playback was blocked:", err));
+  }
 
   // Hide the text
   if (dotText) {
@@ -22,13 +28,13 @@ function expandDot(duration = 1000) {
   dot.style.transform = 'scale(200)';
   dot.style.opacity = '0';
 
-  // create stars
+  // Create stars
   createUniverse(500, duration);
 
-  // remove click listener so it won't trigger again
+  // Remove click listener so it won't trigger again
   dot.removeEventListener('click', onDotClick);
 
-  // after explosion, cursor is default (no clickable)
+  // After explosion, cursor is default (not clickable)
   dot.style.cursor = 'default';
 }
 
