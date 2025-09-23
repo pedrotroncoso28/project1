@@ -1,8 +1,8 @@
 :root{
   --bg: #000;
-  --dot-size: 6px; /* very small size */
+  --dot-size: 6px; 
   --title-color: #ffffff;
-  --highlight-color: #ffd700; /* golden yellow for glow */
+  --highlight-color: #ffd700; 
 }
 
 * { box-sizing: border-box; }
@@ -12,7 +12,7 @@ html, body {
   margin: 0;
   background: var(--bg);
   color: var(--title-color);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-family: Monaco, monospace
 }
 
 /* Title styling */
