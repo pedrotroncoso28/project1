@@ -14,7 +14,7 @@ html, body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-/* Title at the top */
+/* Title styling */
 header {
   position: fixed;
   top: 20px;
@@ -27,18 +27,34 @@ header {
 
 h1 {
   margin: 0;
-  font-size: clamp(18px, 3.5vw, 36px);
-  letter-spacing: 0.04em;
+  font-family: Monaco, monospace;
+  font-weight: 700;
+  font-size: clamp(22px, 4vw, 48px);
+  letter-spacing: 0.08em;
   color: var(--title-color);
-  text-shadow: 0 0 6px rgba(255,255,255,0.06);
+  text-transform: uppercase;
+
+  /* Glowing effect */
+  text-shadow:
+    0 0 8px rgba(0, 200, 255, 0.7),
+    0 0 16px rgba(0, 200, 255, 0.5),
+    0 0 32px rgba(0, 200, 255, 0.3);
 }
 
-/* Center area with the dot */
+/* Center area */
 main {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Container for dot + text */
+.dot-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* The tiny dot in the center */
@@ -51,4 +67,27 @@ main {
     0 0 10px rgba(255,255,255,0.9),
     0 0 24px rgba(255,200,0,0.15);
   transform-origin: center center;
+  cursor: pointer;
 }
+
+/* Tooltip-like text */
+.dot-text {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #0ff;
+  font-family: Monaco, monospace; /* match title for consistency */
+  text-align: center;
+  max-width: 250px;
+  line-height: 1.4;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+/* Show text on hover */
+.dot-container:hover .dot-text {
+  opacity: 1;
+  transform: scale(1);
+}
+

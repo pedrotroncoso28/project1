@@ -15,3 +15,8 @@ function expandDot(duration = 1000) {
 
 // Expose the function for testing: window.simulation.expandDot()
 window.simulation = { expandDot };
+
+// 🔹 Trigger the expansion when the dot is clicked
+dot.addEventListener('click', () => {
+  expandDot(1500); // you can tweak the duration
+});
