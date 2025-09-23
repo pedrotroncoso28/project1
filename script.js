@@ -3,7 +3,11 @@
 const dot = document.getElementById('dot');
 const universe = document.getElementById('universe');
 const dotText = document.getElementById('dot-text');
-const bgAudio = document.getElementById('bg-audio'); // background audio element
+
+// Load background audio
+const bgAudio = new Audio('bigbangsound.mp3');
+bgAudio.loop = true;
+bgAudio.volume = 0.5;
 
 // initial cursor
 dot.style.cursor = 'pointer';
@@ -11,30 +15,26 @@ dot.style.cursor = 'pointer';
 function expandDot(duration = 1000) {
   if (!dot) return;
 
-  // Play background audio in loop
-  if (bgAudio) {
-    bgAudio.currentTime = 0; // restart from beginning
-    bgAudio.play().catch(err => console.log("Audio playback was blocked:", err));
-  }
-
   // Hide the text
   if (dotText) {
     dotText.style.transition = 'opacity 500ms ease-out';
     dotText.style.opacity = '0';
   }
 
-  // Animate dot
-  dot.style.transition = `transform ${duration}ms ease-out, opacity ${duration}ms ease-out`;
-  dot.style.transform = 'scale(200)';
-  dot.style.opacity = '0';
+  // Explosion animation
+  dot.classList.add('exploding');
 
-  // Create stars
+  // play background audio
+  bgAudio.play().catch(err => {
+  });
+
+  // create stars
   createUniverse(500, duration);
 
-  // Remove click listener so it won't trigger again
+  // remove click listener so it won't trigger again
   dot.removeEventListener('click', onDotClick);
 
-  // After explosion, cursor is default (not clickable)
+  // after explosion, cursor is default (no clickable)
   dot.style.cursor = 'default';
 }
 
@@ -71,8 +71,9 @@ function createUniverse(count = 100, duration = 1000) {
     else if (rand > 0.95) star.style.background = '#a9d0ff';
     else star.style.background = '#ffffff';
 
-    const baseDuration = Math.max(duration, 1200);
-    const animDur = baseDuration * (0.8 + Math.random() * 2.0);
+    // Much longer animation with slowdown
+    const baseDuration = 20000; // ~20s base
+    const animDur = baseDuration * (0.8 + Math.random() * 0.5); // between ~16–30s
     const animDelay = Math.random() * (duration * 0.25);
 
     star.style.animationDuration = `${animDur}ms`;
@@ -83,10 +84,18 @@ function createUniverse(count = 100, duration = 1000) {
 }
 
 function onDotClick() {
-  expandDot(2000);
+  // Add shaking animation before explosion
+  dot.classList.add('shaking');
+
+  // Wait until shake finishes (500ms), then trigger explosion
+  setTimeout(() => {
+    dot.classList.remove('shaking');
+    expandDot(2000);
+  }, 500);
 }
 
 window.simulation = { expandDot };
 
 // Attach the click listener
 dot.addEventListener('click', onDotClick);
+
