@@ -2,6 +2,7 @@
   --bg: #000;
   --dot-size: 6px; /* very small size */
   --title-color: #ffffff;
+  --highlight-color: #ffd700; /* golden yellow for glow */
 }
 
 * { box-sizing: border-box; }
@@ -34,11 +35,11 @@ h1 {
   color: var(--title-color);
   text-transform: uppercase;
 
-  /* Glowing effect */
+  /* Glowing effect in yellow */
   text-shadow:
-    0 0 8px rgba(0, 200, 255, 0.7),
-    0 0 16px rgba(0, 200, 255, 0.5),
-    0 0 32px rgba(0, 200, 255, 0.3);
+    0 0 8px rgba(255, 215, 0, 0.7),
+    0 0 16px rgba(255, 215, 0, 0.5),
+    0 0 32px rgba(255, 215, 0, 0.3);
 }
 
 /* Center area */
@@ -69,8 +70,8 @@ main {
     0 0 10px rgba(255,255,255,0.9),
     0 0 24px rgba(255,200,0,0.15);
   transform-origin: center center;
-  cursor: pointer;
   transition: transform 0.3s ease;
+  /* cursor managed by JS */
 }
 
 /* Grow slightly when hovered */
@@ -82,7 +83,7 @@ main {
 .dot-text {
   margin-top: 15px;
   font-size: 14px;
-  color: #0ff;
+  color: var(--highlight-color); /* golden yellow */
   font-family: Monaco, monospace;
   text-align: center;
   max-width: 250px;
@@ -139,3 +140,4 @@ main {
     opacity: 1;
   }
 }
+
