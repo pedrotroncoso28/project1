@@ -68,6 +68,12 @@ main {
     0 0 24px rgba(255,200,0,0.15);
   transform-origin: center center;
   cursor: pointer;
+  transition: transform 0.3s ease; /* smooth scaling */
+}
+
+/* Grow slightly when hovered */
+.dot:hover {
+  transform: scale(1.8);
 }
 
 /* Tooltip-like text */
@@ -75,7 +81,7 @@ main {
   margin-top: 15px;
   font-size: 14px;
   color: #0ff;
-  font-family: Monaco, monospace; /* match title for consistency */
+  font-family: Monaco, monospace;
   text-align: center;
   max-width: 250px;
   line-height: 1.4;
