@@ -171,3 +171,17 @@ main {
   animation: explode 1s ease-out forwards;
 }
 
+/* Galaxy images */
+.galaxy {
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.2);
+
+  /* Same animation as stars */
+  animation-name: spread;
+  animation-timing-function: cubic-bezier(0.2, 1, 0.1, 1);
+  animation-fill-mode: forwards;
+}

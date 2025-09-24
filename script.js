@@ -9,8 +9,19 @@ const bgAudio = new Audio('bigbangsound.mp3');
 bgAudio.loop = true;
 bgAudio.volume = 0.5;
 
-// initial cursor
+// Initial cursor
 dot.style.cursor = 'pointer';
+
+// List of galaxy images
+const galaxyImages = [
+  "galaxy1.png",
+  "galaxy3.png",
+  "galaxy4.png",
+  "galaxy5.png",
+  "galaxy6.png",
+  "galaxy7.png",
+  "galaxy8.png",
+];
 
 function expandDot(duration = 1000) {
   if (!dot) return;
@@ -24,21 +35,20 @@ function expandDot(duration = 1000) {
   // Explosion animation
   dot.classList.add('exploding');
 
-  // play background audio
-  bgAudio.play().catch(err => {
-  });
+  // Play background audio
+  bgAudio.play().catch(err => {});
 
-  // create stars
+  // Create stars + galaxies
   createUniverse(500, duration);
 
-  // remove click listener so it won't trigger again
+  // Remove click listener so it won't trigger again
   dot.removeEventListener('click', onDotClick);
 
-  // after explosion, cursor is default (no clickable)
+  // After explosion, cursor is default (not clickable)
   dot.style.cursor = 'default';
 }
 
-function createUniverse(count = 100, duration = 1000) {
+function createUniverse(starCount = 100, duration = 1000) {
   universe.innerHTML = '';
 
   const rect = dot.getBoundingClientRect();
@@ -47,13 +57,13 @@ function createUniverse(count = 100, duration = 1000) {
 
   const maxRadius = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2) * 0.6;
 
-  for (let i = 0; i < count; i++) {
+  // --- Stars ---
+  for (let i = 0; i < starCount; i++) {
     const star = document.createElement('div');
     star.classList.add('star');
 
     const angle = Math.random() * Math.PI * 2;
     const distance = Math.random() * maxRadius;
-
     const dx = Math.cos(angle) * distance;
     const dy = Math.sin(angle) * distance;
 
@@ -71,15 +81,50 @@ function createUniverse(count = 100, duration = 1000) {
     else if (rand > 0.95) star.style.background = '#a9d0ff';
     else star.style.background = '#ffffff';
 
-    
-    const baseDuration = 20000; // 
-    const animDur = baseDuration * (0.8 + Math.random() * 0.5); 
+    const baseDuration = 20000;
+    const animDur = baseDuration * (0.8 + Math.random() * 0.5);
     const animDelay = Math.random() * (duration * 0.25);
 
     star.style.animationDuration = `${animDur}ms`;
     star.style.animationDelay = `${animDelay}ms`;
 
     universe.appendChild(star);
+  }
+
+  // --- Galaxies ---
+  const galaxyCount = 8; // number of galaxies
+  for (let i = 0; i < galaxyCount; i++) {
+    const galaxy = document.createElement('div');
+    galaxy.classList.add('galaxy');
+
+    const angle = Math.random() * Math.PI * 2;
+    const distance = Math.random() * maxRadius;
+    const dx = Math.cos(angle) * distance;
+    const dy = Math.sin(angle) * distance;
+
+    galaxy.style.setProperty('--dx', `${dx}px`);
+    galaxy.style.setProperty('--dy', `${dy}px`);
+    galaxy.style.left = `${centerX}px`;
+    galaxy.style.top = `${centerY}px`;
+
+    // Random galaxy image
+    const img = galaxyImages[Math.floor(Math.random() * galaxyImages.length)];
+    galaxy.style.backgroundImage = `url(${img})`;
+
+    // Random size for galaxies (bigger than stars)
+    const size = Math.random() * 38 + 20;
+    galaxy.style.width = `${size}px`;
+    galaxy.style.height = `${size}px`;
+
+    // Animation duration
+    const baseDuration = 20000;
+    const animDur = baseDuration * (0.8 + Math.random() * 0.5);
+    const animDelay = Math.random() * (duration * 0.25);
+
+    galaxy.style.animationDuration = `${animDur}ms`;
+    galaxy.style.animationDelay = `${animDelay}ms`;
+
+    universe.appendChild(galaxy);
   }
 }
 
@@ -98,4 +143,3 @@ window.simulation = { expandDot };
 
 // Attach the click listener
 dot.addEventListener('click', onDotClick);
-
