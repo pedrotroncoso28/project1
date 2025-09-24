@@ -112,7 +112,7 @@ function createUniverse(starCount = 100, duration = 1000) {
     galaxy.style.backgroundImage = `url(${img})`;
 
     // Random size for galaxies (bigger than stars)
-    const size = Math.random() * 38 + 20;
+    const size = Math.random() * 55 + 25;
     galaxy.style.width = `${size}px`;
     galaxy.style.height = `${size}px`;
 
