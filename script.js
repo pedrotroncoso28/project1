@@ -15,12 +15,14 @@ dot.style.cursor = 'pointer';
 // List of galaxy images
 const galaxyImages = [
   "galaxy1.png",
+  "galaxy2.png",
   "galaxy3.png",
   "galaxy4.png",
   "galaxy5.png",
   "galaxy6.png",
   "galaxy7.png",
   "galaxy8.png",
+  "galaxy9.png",
 ];
 
 function expandDot(duration = 1000) {
@@ -92,7 +94,7 @@ function createUniverse(starCount = 100, duration = 1000) {
   }
 
   // --- Galaxies ---
-  const galaxyCount = 8; // number of galaxies
+  const galaxyCount = 45; // number of galaxies
   for (let i = 0; i < galaxyCount; i++) {
     const galaxy = document.createElement('div');
     galaxy.classList.add('galaxy');
@@ -112,7 +114,7 @@ function createUniverse(starCount = 100, duration = 1000) {
     galaxy.style.backgroundImage = `url(${img})`;
 
     // Random size for galaxies (bigger than stars)
-    const size = Math.random() * 55 + 25;
+    const size = Math.random() * 45 + 25;
     galaxy.style.width = `${size}px`;
     galaxy.style.height = `${size}px`;
 
