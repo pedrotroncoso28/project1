@@ -71,9 +71,9 @@ function createUniverse(count = 100, duration = 1000) {
     else if (rand > 0.95) star.style.background = '#a9d0ff';
     else star.style.background = '#ffffff';
 
-    // Much longer animation with slowdown
-    const baseDuration = 20000; // ~20s base
-    const animDur = baseDuration * (0.8 + Math.random() * 0.5); // between ~16–30s
+    
+    const baseDuration = 20000; // 
+    const animDur = baseDuration * (0.8 + Math.random() * 0.5); 
     const animDelay = Math.random() * (duration * 0.25);
 
     star.style.animationDuration = `${animDur}ms`;

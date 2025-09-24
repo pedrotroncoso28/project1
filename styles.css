@@ -119,7 +119,7 @@ main {
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.2);
   animation-name: spread;
-  animation-timing-function: cubic-bezier(0.05, 0.9, 0.2, 1);
+  animation-timing-function: cubic-bezier(0.05, 1, 0.2, 1);
   animation-fill-mode: forwards;
 }
 
@@ -158,7 +158,7 @@ main {
     opacity: 1;
   }
   70% {
-    transform: scale(100); /* grows huge from center */
+    transform: scale(180); /* grows huge from center */
     opacity: 1;
   }
   100% {
@@ -168,6 +168,6 @@ main {
 }
 
 .dot.exploding {
-  animation: explode 2s ease-out forwards;
+  animation: explode 1s ease-out forwards;
 }
 
