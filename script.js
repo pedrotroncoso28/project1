@@ -1,147 +1,118 @@
-// script.js
-
+// Main explosion dot and text
 const dot = document.getElementById('dot');
-const universe = document.getElementById('universe');
 const dotText = document.getElementById('dot-text');
+const universe = document.getElementById('universe');
+const explosionCenter = document.getElementById('explosion-center');
 
-// Load background audio
+// Timeline info dots and texts
+const infoDots = [
+  { dot: document.getElementById('info-dot-1'), text: document.getElementById('info-text-1') },
+  { dot: document.getElementById('info-dot-2'), text: document.getElementById('info-text-2') },
+  { dot: document.getElementById('info-dot-3'), text: document.getElementById('info-text-3') }
+];
+
+// Background audio
 const bgAudio = new Audio('bigbangsound.mp3');
 bgAudio.loop = true;
 bgAudio.volume = 0.5;
 
-// Initial cursor
+// Cursor pointer
 dot.style.cursor = 'pointer';
+infoDots.forEach(item => item.dot.style.cursor = 'pointer');
 
-// List of galaxy images
-const galaxyImages = [
-  "galaxy1.png",
-  "galaxy2.png",
-  "galaxy3.png",
-  "galaxy4.png",
-  "galaxy5.png",
-  "galaxy6.png",
-  "galaxy7.png",
-  "galaxy8.png",
-  "galaxy9.png",
-];
+// Toggle timeline info text visibility on click
+infoDots.forEach(item => {
+  item.dot.addEventListener('click', () => {
+    item.text.classList.toggle('visible');
+  });
+});
 
+// Main explosion
 function expandDot(duration = 1000) {
-  if (!dot) return;
+  const centerX = window.innerWidth/2;
+  const centerY = window.innerHeight/2;
 
-  // Hide the text
-  if (dotText) {
-    dotText.style.transition = 'opacity 500ms ease-out';
-    dotText.style.opacity = '0';
-  }
+  // Hide timeline dots and texts
+  infoDots.forEach(item => {
+    item.text.style.opacity = '0';
+    item.dot.style.display = 'none';
+  });
+  dotText.style.opacity = '0';
+  dot.style.display = 'none';
 
-  // Explosion animation
-  dot.classList.add('exploding');
+  // Show explosion effect in center
+  explosionCenter.classList.add('animate');
 
-  // Play background audio
-  bgAudio.play().catch(err => {});
+  // Play audio
+  bgAudio.play().catch(()=>{});
 
-  // Create stars + galaxies
-  createUniverse(500, duration);
+  // Create stars and galaxies from center after short delay
+  setTimeout(()=>{
+    createUniverse(centerX, centerY, 500, duration);
+  },50);
 
-  // Remove click listener so it won't trigger again
   dot.removeEventListener('click', onDotClick);
-
-  // After explosion, cursor is default (not clickable)
-  dot.style.cursor = 'default';
 }
 
-function createUniverse(starCount = 100, duration = 1000) {
+// Create stars and galaxies
+function createUniverse(centerX, centerY, starCount=100, duration=1000){
   universe.innerHTML = '';
+  const maxRadius = Math.sqrt(window.innerWidth**2 + window.innerHeight**2) * 0.6;
 
-  const rect = dot.getBoundingClientRect();
-  const centerX = rect.left + rect.width / 2;
-  const centerY = rect.top + rect.height / 2;
-
-  const maxRadius = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2) * 0.6;
-
-  // --- Stars ---
-  for (let i = 0; i < starCount; i++) {
+  for(let i=0;i<starCount;i++){
     const star = document.createElement('div');
     star.classList.add('star');
-
-    const angle = Math.random() * Math.PI * 2;
-    const distance = Math.random() * maxRadius;
-    const dx = Math.cos(angle) * distance;
-    const dy = Math.sin(angle) * distance;
-
-    star.style.setProperty('--dx', `${dx}px`);
-    star.style.setProperty('--dy', `${dy}px`);
+    const angle = Math.random()*Math.PI*2;
+    const distance = Math.random()*maxRadius;
+    const dx = Math.cos(angle)*distance;
+    const dy = Math.sin(angle)*distance;
+    star.style.setProperty('--dx',`${dx}px`);
+    star.style.setProperty('--dy',`${dy}px`);
     star.style.left = `${centerX}px`;
     star.style.top = `${centerY}px`;
-
-    const size = Math.random() * 2.5 + 0.8;
+    const size = Math.random()*2.5+0.8;
     star.style.width = `${size}px`;
     star.style.height = `${size}px`;
-
     const rand = Math.random();
-    if (rand > 0.98) star.style.background = '#ffd27f';
-    else if (rand > 0.95) star.style.background = '#a9d0ff';
-    else star.style.background = '#ffffff';
-
-    const baseDuration = 20000;
-    const animDur = baseDuration * (0.8 + Math.random() * 0.5);
-    const animDelay = Math.random() * (duration * 0.25);
-
-    star.style.animationDuration = `${animDur}ms`;
-    star.style.animationDelay = `${animDelay}ms`;
-
+    if(rand>0.98) star.style.background='#ffd27f';
+    else if(rand>0.95) star.style.background='#a9d0ff';
+    else star.style.background='#ffffff';
+    star.style.animationDuration=`${20000*(0.8+Math.random()*0.5)}ms`;
+    star.style.animationDelay=`${Math.random()*(duration*0.25)}ms`;
     universe.appendChild(star);
   }
 
-  // --- Galaxies ---
-  const galaxyCount = 45; // number of galaxies
-  for (let i = 0; i < galaxyCount; i++) {
+  const galaxyImages = ["galaxy1.png","galaxy2.png","galaxy3.png","galaxy4.png","galaxy5.png","galaxy6.png","galaxy7.png","galaxy8.png","galaxy9.png"];
+  const galaxyCount = 45;
+  for(let i=0;i<galaxyCount;i++){
     const galaxy = document.createElement('div');
     galaxy.classList.add('galaxy');
-
-    const angle = Math.random() * Math.PI * 2;
-    const distance = Math.random() * maxRadius;
-    const dx = Math.cos(angle) * distance;
-    const dy = Math.sin(angle) * distance;
-
-    galaxy.style.setProperty('--dx', `${dx}px`);
-    galaxy.style.setProperty('--dy', `${dy}px`);
-    galaxy.style.left = `${centerX}px`;
-    galaxy.style.top = `${centerY}px`;
-
-    // Random galaxy image
-    const img = galaxyImages[Math.floor(Math.random() * galaxyImages.length)];
-    galaxy.style.backgroundImage = `url(${img})`;
-
-    // Random size for galaxies (bigger than stars)
-    const size = Math.random() * 35 + 25;
-    galaxy.style.width = `${size}px`;
-    galaxy.style.height = `${size}px`;
-
-    // Animation duration
-    const baseDuration = 20000;
-    const animDur = baseDuration * (0.8 + Math.random() * 0.5);
-    const animDelay = Math.random() * (duration * 0.25);
-
-    galaxy.style.animationDuration = `${animDur}ms`;
-    galaxy.style.animationDelay = `${animDelay}ms`;
-
+    const angle=Math.random()*Math.PI*2;
+    const distance=Math.random()*maxRadius;
+    const dx=Math.cos(angle)*distance;
+    const dy=Math.sin(angle)*distance;
+    galaxy.style.setProperty('--dx',`${dx}px`);
+    galaxy.style.setProperty('--dy',`${dy}px`);
+    galaxy.style.left=`${centerX}px`;
+    galaxy.style.top=`${centerY}px`;
+    const img = galaxyImages[Math.floor(Math.random()*galaxyImages.length)];
+    galaxy.style.backgroundImage=`url(${img})`;
+    const size=Math.random()*35+25;
+    galaxy.style.width=`${size}px`;
+    galaxy.style.height=`${size}px`;
+    galaxy.style.animationDuration=`${20000*(0.8+Math.random()*0.5)}ms`;
+    galaxy.style.animationDelay=`${Math.random()*(duration*0.25)}ms`;
     universe.appendChild(galaxy);
   }
 }
 
-function onDotClick() {
-  // Add shaking animation before explosion
+// Main dot shake + explosion
+function onDotClick(){
   dot.classList.add('shaking');
-
-  // Wait until shake finishes (500ms), then trigger explosion
-  setTimeout(() => {
+  setTimeout(()=>{
     dot.classList.remove('shaking');
     expandDot(2000);
-  }, 500);
+  },500);
 }
-
-window.simulation = { expandDot };
-
-// Attach the click listener
 dot.addEventListener('click', onDotClick);
+

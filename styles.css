@@ -12,10 +12,9 @@ html, body {
   margin: 0;
   background: var(--bg);
   color: var(--title-color);
-  font-family: Monaco, monospace
+  font-family: Monaco, monospace;
 }
 
-/* Title styling */
 header {
   position: fixed;
   top: 20px;
@@ -33,15 +32,12 @@ h1 {
   font-size: 25px;
   color: var(--title-color);
   text-transform: uppercase;
-
-  /* Glowing effect in yellow */
   text-shadow:
     0 0 8px rgba(255, 215, 0, 0.7),
     0 0 16px rgba(255, 215, 0, 0.5),
     0 0 32px rgba(255, 215, 0, 0.3);
 }
 
-/* Center area */
 main {
   position: relative;
   height: 100vh;
@@ -50,16 +46,20 @@ main {
   justify-content: center;
 }
 
-/* Container for dot + text */
-.dot-container {
-  position: relative;
+.timeline {
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 2;
 }
 
-/* The tiny dot */
+/* Timeline items - even tighter spacing */
+.timeline-item {
+  display: flex;
+  align-items: center;
+  margin: 25px 0; /* reduced from 40px */
+}
+
+/* Standard white dot */
 .dot {
   width: var(--dot-size);
   height: var(--dot-size);
@@ -70,44 +70,36 @@ main {
     0 0 24px rgba(255,200,0,0.15);
   transform-origin: center center;
   transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
-/* Grow slightly when hovered */
-.dot:hover {
-  transform: scale(1.8);
-}
+.dot:hover { transform: scale(1.8); }
 
+/* Timeline info text - smaller font and tighter spacing */
 .dot-text {
-  margin-top: 15px;
-  font-size: 14px;
-  color: var(--highlight-color); /* golden yellow */
-  font-family: Monaco, monospace;
-  text-align: center;
-  max-width: 250px;
-  line-height: 1.4;
+  max-width: 240px; /* slightly smaller */
+  margin-top: 3px;  /* less vertical space */
+  font-size: 11px;  /* smaller font */
+  color: var(--highlight-color);
+  line-height: 1.25; /* slightly tighter line spacing */
   opacity: 0;
   transform: scale(0.9);
   transition: opacity 0.3s ease, transform 0.3s ease;
   pointer-events: none;
 }
 
-/* Show text on hover */
-.dot-container:hover .dot-text {
-  opacity: 1;
-  transform: scale(1);
-}
+/* Alternate left/right text positioning */
+.timeline-item:nth-child(odd) .dot-text { order: 2; margin-left: 15px; text-align: left; }
+.timeline-item:nth-child(even) .dot-text { order: 1; margin-right: 15px; text-align: right; }
+
+/* Visible class */
+.dot-text.visible { opacity: 1; transform: scale(1); pointer-events: auto; }
+
+/* Main explosion dot hover text */
+#dot:hover + .main-text { opacity: 1; transform: scale(1); }
 
 /* Universe container */
-#universe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
+#universe { position: absolute; top:0; left:0; width:100%; height:100%; overflow:hidden; pointer-events:none; z-index:0; }
 
 /* Star style */
 .star {
@@ -119,59 +111,32 @@ main {
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.2);
   animation-name: spread;
-  animation-timing-function: cubic-bezier(0.05, 1, 0.2, 1);
+  animation-timing-function: cubic-bezier(0.05,1,0.2,1);
   animation-fill-mode: forwards;
 }
 
-/* Spread animation */
 @keyframes spread {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.2);
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1);
-    opacity: 1;
-  }
+  0% { opacity:0; transform: translate(-50%, -50%) scale(0.2); }
+  20% { opacity:1; }
+  100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1); opacity:1; }
 }
 
-/* Shake animation for the dot */
 @keyframes shake {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  20% { transform: translate(-4px, 0) scale(1.1); }
-  40% { transform: translate(4px, 0) scale(1.1); }
-  60% { transform: translate(-4px, 0) scale(1.1); }
-  80% { transform: translate(4px, 0) scale(1.1); }
+  0%,100% { transform: translate(0,0) scale(1); }
+  20% { transform: translate(-4px,0) scale(1.1); }
+  40% { transform: translate(4px,0) scale(1.1); }
+  60% { transform: translate(-4px,0) scale(1.1); }
+  80% { transform: translate(4px,0) scale(1.1); }
 }
+.dot.shaking { animation: shake 0.5s ease-in-out; }
 
-.dot.shaking {
-  animation: shake 0.5s ease-in-out;
-}
-
-/* Explosion animation */
 @keyframes explode {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  70% {
-    transform: scale(180); /* grows huge from center */
-    opacity: 1;
-  }
-  100% {
-    transform: scale(150); 
-    opacity: 0;
-  }
+  0% { transform: scale(1); opacity:1; }
+  70% { transform: scale(180); opacity:1; }
+  100% { transform: scale(150); opacity:0; }
 }
+.dot.exploding { animation: explode 1s ease-out forwards; }
 
-.dot.exploding {
-  animation: explode 1s ease-out forwards;
-}
-
-/* Galaxy images */
 .galaxy {
   position: absolute;
   background-size: contain;
@@ -179,9 +144,30 @@ main {
   background-position: center;
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.2);
-
-  /* Same animation as stars */
   animation-name: spread;
-  animation-timing-function: cubic-bezier(0.2, 1, 0.1, 1);
+  animation-timing-function: cubic-bezier(0.2,1,0.1,1);
   animation-fill-mode: forwards;
 }
+
+/* Explosion effect in center */
+.explosion-center {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle at 30% 30%, #fff, #ffd, #f0f0f0);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  z-index: 20;
+  pointer-events: none;
+  display: none;
+  animation-fill-mode: forwards;
+}
+
+.explosion-center.animate {
+  display: block;
+  animation: explode 1s ease-out forwards;
+}
+
+
