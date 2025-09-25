@@ -40,6 +40,11 @@ function expandDot(duration = 1000) {
   dotText.style.opacity = '0';
   dot.style.display = 'none';
 
+  // Hide all arrows when explosion happens
+  document.querySelectorAll('.arrow').forEach(arrow => {
+    arrow.style.display = 'none';
+  });
+
   // Show explosion effect in center
   explosionCenter.classList.add('animate');
 
@@ -115,4 +120,3 @@ function onDotClick(){
   },500);
 }
 dot.addEventListener('click', onDotClick);
-
