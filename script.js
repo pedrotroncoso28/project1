@@ -109,7 +109,7 @@ function createUniverse(centerX, centerY, starCount=100, duration=1000){
     universe.appendChild(star);
   }
 
-  const galaxyImages = ["galaxy1.png","galaxy2.png","galaxy3.png","galaxy4.png","galaxy5.png","galaxy6.png","galaxy7.png","galaxy8.png","galaxy9.png"];
+  const galaxyImages = ["images/galaxy1.png","images/galaxy2.png","images/galaxy3.png","images/galaxy4.png","images/galaxy5.png","images/galaxy6.png","images/galaxy7.png","images/galaxy8.png","images/galaxy9.png"];
   const galaxyCount = 45;
   for(let i=0;i<galaxyCount;i++){
     const galaxy = document.createElement('div');
