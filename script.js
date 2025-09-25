@@ -27,8 +27,8 @@ infoDots.forEach(item => {
 
     if (item.text.classList.contains('visible')) {
       const utterance = new SpeechSynthesisUtterance(item.text.textContent);
-      utterance.rate = 0.85;   
-      utterance.pitch = 1.2;   
+      utterance.rate = 0.70;   
+      utterance.pitch = 1;   
       utterance.volume = 1;  
 
       
