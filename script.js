@@ -127,8 +127,10 @@ function createUniverse(centerX, centerY, starCount=100, duration=1000){
     const size=Math.random()*35+25;
     galaxy.style.width=`${size}px`;
     galaxy.style.height=`${size}px`;
-    galaxy.style.animationDuration=`${20000*(0.8+Math.random()*0.5)}ms`;
-    galaxy.style.animationDelay=`${Math.random()*(duration*0.25)}ms`;
+   const galaxyBaseDuration = 35000 + Math.random()*15000;
+    galaxy.style.animationDuration=`${galaxyBaseDuration}ms`;
+    galaxy.style.animationDelay=`${Math.random()*500}ms`;
+    galaxy.style.animationTimingFunction='cubic-bezier(0.2, 1, 0.1, 1)'; // starts fast, slows gradually
     universe.appendChild(galaxy);
   }
 }
