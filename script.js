@@ -24,6 +24,28 @@ infoDots.forEach(item => item.dot.style.cursor = 'pointer');
 infoDots.forEach(item => {
   item.dot.addEventListener('click', () => {
     item.text.classList.toggle('visible');
+
+    if (item.text.classList.contains('visible')) {
+      const utterance = new SpeechSynthesisUtterance(item.text.textContent);
+      utterance.rate = 0.85;   
+      utterance.pitch = 1.2;   
+      utterance.volume = 1;  
+
+      
+      const voices = speechSynthesis.getVoices();
+      const cheerfulVoice = voices.find(v => 
+        v.name.toLowerCase().includes('female') || 
+        v.name.toLowerCase().includes('samantha') || 
+        v.name.toLowerCase().includes('google us english female')
+      );
+      if (cheerfulVoice) {
+        utterance.voice = cheerfulVoice;
+      }
+
+      speechSynthesis.speak(utterance);
+    } else {
+      speechSynthesis.cancel();
+    }
   });
 });
 
