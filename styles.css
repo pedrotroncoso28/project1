@@ -56,7 +56,7 @@ main {
 .timeline-item {
   display: flex;
   align-items: center;
-  margin: 25px 0; /* reduced from 40px */
+  margin: 10px 0; 
 }
 
 /* Standard white dot */
@@ -77,11 +77,11 @@ main {
 
 /* Timeline info text - smaller font and tighter spacing */
 .dot-text {
-  max-width: 240px; /* slightly smaller */
-  margin-top: 3px;  /* less vertical space */
-  font-size: 11px;  /* smaller font */
+  max-width: 240px;
+  margin-top: 3px;  
+  font-size: 11px; 
   color: var(--highlight-color);
-  line-height: 1.25; /* slightly tighter line spacing */
+  line-height: 1.25;
   opacity: 0;
   transform: scale(0.9);
   transition: opacity 0.3s ease, transform 0.3s ease;
@@ -90,7 +90,7 @@ main {
 
 /* Alternate left/right text positioning */
 .timeline-item:nth-child(odd) .dot-text { order: 2; margin-left: 15px; text-align: left; }
-.timeline-item:nth-child(even) .dot-text { order: 1; margin-right: 15px; text-align: right; }
+.timeline-item:nth-child(even) .dot-text { order: 1; margin-left: 15px; text-align: left; }
 
 /* Visible class */
 .dot-text.visible { opacity: 1; transform: scale(1); pointer-events: auto; }
